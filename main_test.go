@@ -17,6 +17,7 @@ func TestCalculate(t *testing.T) {
 		{1, 2, "invalid", 0},
 		{1, 0, "/", 0},
 		{0, 0, "/", 0},
+		{0, 1, "/", 0},
 	}
 
 	for _, tt := range tests {
