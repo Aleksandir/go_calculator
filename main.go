@@ -42,8 +42,12 @@ func main() {
 		fmt.Scanln(&num2)
 		inum2, err = strconv.Atoi(num2)
 	}
-
-	fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(inum1, inum2, operator))
+	if operator == "/" && inum2 == 0 {
+		fmt.Println("Cannot divide by zero")
+		return
+	} else {
+		fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(inum1, inum2, operator))
+	}
 }
 
 // contains checks if a given item exists in a slice of strings.
