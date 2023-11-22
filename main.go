@@ -6,6 +6,9 @@ import (
 )
 
 func main() {
+	// welcome message
+	fmt.Println("**Welcome to the calculator program!**\n")
+
 	// num1 input and validation
 	var num1 string
 	fmt.Print("Please enter your first number: ")
