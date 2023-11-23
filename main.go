@@ -24,7 +24,7 @@ func main() {
 	}
 
 	// operator input and validation
-	var validOperators = []string{"+", "-", "*", "/", "^", "**"}
+	var validOperators = []string{"+", "-", "*", "/", "^", "**", "%"}
 	var operator string
 	fmt.Printf("Please enter an operator %v: ", validOperators)
 	fmt.Scanln(&operator)
@@ -79,6 +79,8 @@ func calculate(num1, num2 float64, operator string) float64 {
 		return divide(num1, num2)
 	case "^", "**":
 		return square2(num1)
+	case "%":
+		return remainder(num1, num2)
 	default:
 		fmt.Println("Invalid operator")
 		return 0
@@ -106,4 +108,8 @@ func square2(num1 float64) float64 {
 }
 func square(num1, pow float64) float64 {
 	return math.Pow(num1, pow)
+}
+
+func remainder(num1, num2 float64) float64 {
+	return math.Mod(num1, num2)
 }
