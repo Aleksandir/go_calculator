@@ -14,12 +14,12 @@ func main() {
 	fmt.Print("Please enter your first number: ")
 	fmt.Scanln(&num1)
 
-	inum1, err := strconv.Atoi(num1)
+	fnum1, err := strconv.ParseFloat(num1, 64)
 	for err != nil {
 		fmt.Println("Invalid number")
 		fmt.Print("Please enter your first number: ")
 		fmt.Scanln(&num1)
-		inum1, err = strconv.Atoi(num1)
+		fnum1, err = strconv.ParseFloat(num1, 64)
 	}
 
 	// operator input and validation
@@ -38,18 +38,18 @@ func main() {
 	fmt.Print("Please enter your second number: ")
 	fmt.Scanln(&num2)
 
-	inum2, err := strconv.Atoi(num2)
+	fnum2, err := strconv.ParseFloat(num2, 64)
 	for err != nil {
 		fmt.Println("Invalid number")
 		fmt.Print("Please enter your second number: ")
 		fmt.Scanln(&num2)
-		inum2, err = strconv.Atoi(num2)
+		fnum2, err = strconv.ParseFloat(num2, 64)
 	}
-	if operator == "/" && inum2 == 0 {
+	if operator == "/" && fnum2 == 0 {
 		fmt.Println("Cannot divide by zero")
 		return
 	} else {
-		fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(inum1, inum2, operator))
+		fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(fnum1, fnum2, operator))
 	}
 }
 
@@ -66,7 +66,7 @@ func contains(slice []string, item string) bool {
 
 // calculate performs arithmetic operations on two numbers based on the given operator.
 // It returns the result of the operation.
-func calculate(num1, num2 int, operator string) int {
+func calculate(num1, num2 float64, operator string) float64 {
 	switch operator {
 	case "+":
 		return add(num1, num2)
@@ -81,15 +81,20 @@ func calculate(num1, num2 int, operator string) int {
 		return 0
 	}
 }
-func add(num1, num2 int) int {
+
+func add(num1, num2 float64) float64 {
 	return num1 + num2
 }
-func subtract(num1, num2 int) int {
+
+func subtract(num1, num2 float64) float64 {
 	return num1 - num2
 }
-func multiply(num1, num2 int) int {
+
+func multiply(num1, num2 float64) float64 {
 	return num1 * num2
 }
-func divide(num1, num2 int) int {
-	return num1 / num2
+
+func divide(num1, num2 float64) float64 {
+	result := num1 / num2
+	return result
 }
