@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 )
 
@@ -23,13 +24,13 @@ func main() {
 	}
 
 	// operator input and validation
-	var validOperators = []string{"+", "-", "*", "/"}
+	var validOperators = []string{"+", "-", "*", "/", "^", "**"}
 	var operator string
-	fmt.Print("Please enter an operator (+, -, *, /): ")
+	fmt.Printf("Please enter an operator %v: ", validOperators)
 	fmt.Scanln(&operator)
 	for contains(validOperators, operator) == false {
 		fmt.Println("Invalid operator")
-		fmt.Print("Please enter an operator (+, -, *, /): ")
+		fmt.Printf("Please enter an operator (%s): ", validOperators)
 		fmt.Scanln(&operator)
 	}
 
@@ -76,6 +77,8 @@ func calculate(num1, num2 float64, operator string) float64 {
 		return multiply(num1, num2)
 	case "/":
 		return divide(num1, num2)
+	case "^", "**":
+		return square2(num1)
 	default:
 		fmt.Println("Invalid operator")
 		return 0
@@ -97,4 +100,10 @@ func multiply(num1, num2 float64) float64 {
 func divide(num1, num2 float64) float64 {
 	result := num1 / num2
 	return result
+}
+func square2(num1 float64) float64 {
+	return num1 * num1
+}
+func square(num1, pow float64) float64 {
+	return math.Pow(num1, pow)
 }
