@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"unicode"
 )
 
 func main() {
@@ -50,8 +51,9 @@ func main() {
 		fmt.Println("Cannot divide by zero")
 		return
 	} else {
-		equation_parser(num1 + operator + num2)
-		fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(fnum1, fnum2, operator))
+		fnum1Str := fmt.Sprintf("%f", fnum1)
+		fnum2Str := fmt.Sprintf("%f", fnum2)
+		fmt.Println(perform_operations(equation_parser(fnum1Str + operator + fnum2Str)))
 	}
 }
 
@@ -88,35 +90,36 @@ func calculate(num1, num2 float64, operator string) float64 {
 	}
 }
 
-// take a string and parse it into a slice of strings, then return the slice
-// this is so the user can input a string of numbers and operators and the program will parse it
 func equation_parser(equation string) []string {
-	// 1. Define a function equation_parser that takes a string as input.
-	// 2. Initialize an empty slice to hold the parsed elements of the equation.
-	// 3. Loop over the characters in the input string.
-	// 4. If the character is a digit, keep adding to a temporary string until a non-digit character is found. This handles multi-digit numbers.
-	// 5. If the character is a non-digit (i.e., an operator), add the number accumulated so far to the slice, add the operator to the slice, and reset the temporary string.
-	// 6. After the loop, add any remaining number to the slice.
-	// 7. Now you have a slice with numbers and operators as separate elements.
-	// 8. Loop over the slice and perform the operations in the correct order (following BEDMAS/BODMAS rules). You might need to implement separate functions for each operation.
-	// 9. Return the final result.
+	var parsedEquation []string
+	tempNumber := ""
 
+	for _, char := range equation {
+		if unicode.IsDigit(char) {
+			tempNumber += string(char)
+		} else {
+			if tempNumber != "" {
+				parsedEquation = append(parsedEquation, tempNumber)
+				tempNumber = ""
+			}
+			parsedEquation = append(parsedEquation, string(char))
+		}
+	}
 
-	// below is sudo code
-    parsed_equation = []
-    temp_number = ""
-    for char in equation:
-        if char is a digit:
-            temp_number += char
-        else:
-            if temp_number is not empty:
-                parsed_equation.append(temp_number)
-                temp_number = ""
-            parsed_equation.append(char)
-    if temp_number is not empty:
-        parsed_equation.append(temp_number)
-    result = perform_operations(parsed_equation)
-    return result
+	if tempNumber != "" {
+		parsedEquation = append(parsedEquation, tempNumber)
+	}
+
+	return parsedEquation
+}
+func perform_operations(parsedEquation []string) int {
+	// This is a placeholder function. You'll need to implement this function to perform the actual operations.
+	// For now, it just converts the first element of parsedEquation to an integer and returns it.
+	if len(parsedEquation) > 0 {
+		result, _ := strconv.Atoi(parsedEquation[0])
+		return result
+	}
+	return 0
 }
 
 func add(num1, num2 float64) float64 {
