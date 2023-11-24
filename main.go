@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/Knetic/govaluate"
 )
@@ -34,6 +35,15 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+
+		// round the result
+		floatResult, ok := result.(float64)
+		if ok {
+			floatResult := floatResult * 100
+			result = math.Round(floatResult) / 100
+		}
+
+		// print result
 		fmt.Printf("%v = %v\n", equation, result)
 	}
 }
