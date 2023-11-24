@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -50,6 +51,7 @@ func main() {
 		fmt.Println("Cannot divide by zero")
 		return
 	} else {
+		equation_parser(num1 + operator + num2)
 		fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(fnum1, fnum2, operator))
 	}
 }
@@ -85,6 +87,54 @@ func calculate(num1, num2 float64, operator string) float64 {
 		fmt.Println("Invalid operator")
 		return 0
 	}
+}
+
+// take a string and parse it into a slice of strings, then return the slice
+// this is so the user can input a string of numbers and operators and the program will parse it
+func equation_parser(equation string) []string {
+	// take the string and parse it into a slice of strings, separated by valid operators
+
+	// order of operations: brackets, exponents, multiplication, division, addition, subtraction (BEDMAS)
+	// loop through the slice and perform operations in order of operations
+	// if the operator is a bracket, call equation_parser on the string inside the brackets
+	// if the operator is an exponent, call square on the number before the operator and the number after the operator
+	// remove the number before the operator and the operator from the slice
+	// replace the number after the operator with the result of the square function
+	// if the operator is multiplication, call multiply on the number before the operator and the number after the operator
+	// if the operator is division, call divide on the number before the operator and the number after the operator
+	// if the operator is addition, call add on the number before the operator and the number after the operator
+	// if the operator is subtraction, call subtract on the number before the operator and the number after the operator
+
+	for i, a := range equation {
+		if string(a) == "(" {
+			closingBracketIndex := strings.Index(equation[i:], ")")
+			if closingBracketIndex == -1 {
+				fmt.Println("Error: mismatched brackets")
+				break
+			}
+			substring := equation[i+1 : i+closingBracketIndex]
+			equation_parser(substring)
+		}
+
+		if string(i) == "^" || string(i) == "**" {
+			// call square on the number before the operator and the number after the operator
+
+		}
+		if string(i) == "*" {
+			// call multiply on the number before the operator and the number after the operator
+		}
+		if string(i) == "/" {
+			// call divide on the number before the operator and the number after the operator
+		}
+		if string(i) == "+" {
+			// call add on the number before the operator and the number after the operator
+		}
+		if string(i) == "-" {
+			// call subtract on the number before the operator and the number after the operator
+		}
+	}
+
+	// will return a slice of strings
 }
 
 func add(num1, num2 float64) float64 {
