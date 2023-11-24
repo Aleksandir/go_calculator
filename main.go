@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"unicode"
 )
 
 func main() {
@@ -50,7 +51,9 @@ func main() {
 		fmt.Println("Cannot divide by zero")
 		return
 	} else {
-		fmt.Printf("%v %v %v = %v\n", num1, operator, num2, calculate(fnum1, fnum2, operator))
+		fnum1Str := fmt.Sprintf("%f", fnum1)
+		fnum2Str := fmt.Sprintf("%f", fnum2)
+		fmt.Println(perform_operations(equation_parser(fnum1Str + operator + fnum2Str)))
 	}
 }
 
@@ -85,6 +88,38 @@ func calculate(num1, num2 float64, operator string) float64 {
 		fmt.Println("Invalid operator")
 		return 0
 	}
+}
+
+func equation_parser(equation string) []string {
+	var parsedEquation []string
+	tempNumber := ""
+
+	for _, char := range equation {
+		if unicode.IsDigit(char) {
+			tempNumber += string(char)
+		} else {
+			if tempNumber != "" {
+				parsedEquation = append(parsedEquation, tempNumber)
+				tempNumber = ""
+			}
+			parsedEquation = append(parsedEquation, string(char))
+		}
+	}
+
+	if tempNumber != "" {
+		parsedEquation = append(parsedEquation, tempNumber)
+	}
+
+	return parsedEquation
+}
+func perform_operations(parsedEquation []string) int {
+	// This is a placeholder function. You'll need to implement this function to perform the actual operations.
+	// For now, it just converts the first element of parsedEquation to an integer and returns it.
+	if len(parsedEquation) > 0 {
+		result, _ := strconv.Atoi(parsedEquation[0])
+		return result
+	}
+	return 0
 }
 
 func add(num1, num2 float64) float64 {
