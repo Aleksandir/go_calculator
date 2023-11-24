@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"strconv"
-	"unicode"
 )
 
 func main() {
@@ -47,13 +46,14 @@ func main() {
 		fmt.Scanln(&num2)
 		fnum2, err = strconv.ParseFloat(num2, 64)
 	}
+	// may not need this after new module addition
 	if operator == "/" && fnum2 == 0 {
 		fmt.Println("Cannot divide by zero")
 		return
 	} else {
-		fnum1Str := fmt.Sprintf("%f", fnum1)
-		fnum2Str := fmt.Sprintf("%f", fnum2)
-		fmt.Println(perform_operations(equation_parser(fnum1Str + operator + fnum2Str)))
+		expression := fmt.Sprintf("%v %v %v", fnum1, operator, fnum2)
+		result := calculate(fnum1, fnum2, operator)
+		fmt.Printf("%s = %v\n", expression, result)
 	}
 }
 
@@ -90,37 +90,38 @@ func calculate(num1, num2 float64, operator string) float64 {
 	}
 }
 
-func equation_parser(equation string) []string {
-	var parsedEquation []string
-	tempNumber := ""
+// func equation_parser(equation string) []string {
+// 	var parsedEquation []string
+// 	tempNumber := ""
 
-	for _, char := range equation {
-		if unicode.IsDigit(char) {
-			tempNumber += string(char)
-		} else {
-			if tempNumber != "" {
-				parsedEquation = append(parsedEquation, tempNumber)
-				tempNumber = ""
-			}
-			parsedEquation = append(parsedEquation, string(char))
-		}
-	}
+// 	for _, char := range equation {
+// 		if unicode.IsDigit(char) {
+// 			tempNumber += string(char)
+// 		} else {
+// 			if tempNumber != "" {
+// 				parsedEquation = append(parsedEquation, tempNumber)
+// 				tempNumber = ""
+// 			}
+// 			parsedEquation = append(parsedEquation, string(char))
+// 		}
+// 	}
 
-	if tempNumber != "" {
-		parsedEquation = append(parsedEquation, tempNumber)
-	}
+// 	if tempNumber != "" {
+// 		parsedEquation = append(parsedEquation, tempNumber)
+// 	}
 
-	return parsedEquation
-}
-func perform_operations(parsedEquation []string) int {
-	// This is a placeholder function. You'll need to implement this function to perform the actual operations.
-	// For now, it just converts the first element of parsedEquation to an integer and returns it.
-	if len(parsedEquation) > 0 {
-		result, _ := strconv.Atoi(parsedEquation[0])
-		return result
-	}
-	return 0
-}
+// 	fmt.Println(parsedEquation)
+// 	return parsedEquation
+// }
+// func perform_operations(parsedEquation []string) int {
+// 	// This is a placeholder function. You'll need to implement this function to perform the actual operations.
+// 	// For now, it just converts the first element of parsedEquation to an integer and returns it.
+// 	if len(parsedEquation) > 0 {
+// 		result, _ := strconv.Atoi(parsedEquation[0])
+// 		return result
+// 	}
+// 	return 0
+// }
 
 func add(num1, num2 float64) float64 {
 	return num1 + num2
