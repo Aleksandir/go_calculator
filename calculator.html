@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+      input {
+        background-color: #444;
+        color: #fff;
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="calcForm">
+      <input type="text" id="equation" name="equation" />
+      <input type="submit" value="Calculate" />
+    </form>
+    <script>
+      document.getElementById("calcForm").onsubmit = function (e) {
+        e.preventDefault();
+        fetch(
+          "/calculate?equation=" +
+            encodeURIComponent(document.getElementById("equation").value)
+        )
+          .then((response) => response.text())
+          .then((result) => {
+            document.getElementById("equation").value = result
+              .split("=")[1]
+              .trim();
+          });
+      };
+    </script>
+  </body>
+</html>

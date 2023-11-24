@@ -30,26 +30,7 @@ func calculateHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/calculate", calculateHandler)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `
-		<html>
-		<body>
-			<form id="calcForm">
-				<input type="text" id="equation" name="equation">
-				<input type="submit" value="Calculate">
-			</form>
-			<script>
-				document.getElementById('calcForm').onsubmit = function(e) {
-					e.preventDefault();
-					fetch('/calculate?equation=' + encodeURIComponent(document.getElementById('equation').value))
-						.then(response => response.text())
-						.then(result => {
-							document.getElementById('equation').value = result.split('=')[1].trim();
-						});
-				};
-			</script>
-		</body>
-	</html>
-        `)
+		http.ServeFile(w, r, "calculator.html")
 	})
 	http.ListenAndServe(":8080", nil)
 }
